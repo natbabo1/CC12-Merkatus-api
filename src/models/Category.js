@@ -1,34 +1,19 @@
 module.exports = (sequelize, DataTypes) => {
-  const Transaction = sequelize.define(
-    'Transaction',
-    { status: DataTypes.ENUM(PENDING, COMPLETED) },
+  const Category = sequelize.define(
+    'Category',
+    {
+      categoryName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+    },
     { underscored: true }
   );
 
-  Transaction.associate = (db) => {
-    Transaction.belongsTo(db.User, {
-      as: 'Sender',
+  Category.associate = (db) => {
+    Category.hasMany(db.Product, {
       foreignKey: {
-        name: 'senderId',
-        allowNull: false,
-      },
-      onDelete: 'RESTRICT',
-      onUpdate: 'RESTRICT',
-    });
-
-    Transaction.belongsTo(db.User, {
-      as: 'Receiver',
-      foreignKey: {
-        name: 'receiverId',
-        allowNull: false,
-      },
-      onDelete: 'RESTRICT',
-      onUpdate: 'RESTRICT',
-    });
-
-    Transaction.belongsTo(db.Order, {
-      foreignKey: {
-        name: 'orderId',
+        name: 'categoryId',
         allowNull: false,
       },
       onDelete: 'RESTRICT',
@@ -36,5 +21,5 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  return Transaction;
+  return Category;
 };
