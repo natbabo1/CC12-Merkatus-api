@@ -45,8 +45,10 @@ exports.getProducts = async ({
     include: Category,
     limit: limit ? +limit : 30,
     offset: page ? (page - 1) * limit : 0,
-    order: order
-      ? [orderBy, order.toLowerCase() === "asc" ? "ASC" : "DESC"]
-      : ["updatedAt", order ?? "DESC"]
+    order: [
+      orderBy
+        ? [orderBy, order?.toLowerCase() === "asc" ? "ASC" : "DESC"]
+        : ["updatedAt", order ?? "DESC"]
+    ]
   });
 };
