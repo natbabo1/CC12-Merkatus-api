@@ -45,6 +45,12 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: USER,
       },
       wallet: {
+        type: DataTypes.INTEGER.UNSIGNED,
+      },
+      profileImage: {
+        type: DataTypes.STRING,
+      },
+      coverImage: {
         type: DataTypes.STRING,
       },
     },
@@ -86,6 +92,16 @@ module.exports = (sequelize, DataTypes) => {
       as: 'Receiver',
       foreignKey: {
         name: 'receiverId',
+        allowNull: false,
+      },
+      onDelete: 'RESTRICT',
+      onUpdate: 'RESTRICT',
+    });
+
+    User.hasMany(db.Mycart, {
+      as: 'Buyercart',
+      foreignKey: {
+        name: 'buyercartId',
         allowNull: false,
       },
       onDelete: 'RESTRICT',

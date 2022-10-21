@@ -5,9 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     'Order',
     {
       status: DataTypes.ENUM(PAID, TRANSFER, RECEIVED),
-      rating: DataTypes.INTEGER,
-      amount: DataTypes.INTEGER.UNSIGNED,
-      totalPrice: DataTypes.INTEGER.UNSIGNED,
+      date: DataTypes.STRING,
     },
     { underscored: true }
   );
@@ -23,9 +21,9 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: 'RESTRICT',
     });
 
-    Order.belongsTo(db.Product, {
+    Order.hasMany(db.Orderitem, {
       foreignKey: {
-        name: 'productId',
+        name: 'orderId',
         allowNull: false,
       },
       onDelete: 'RESTRICT',

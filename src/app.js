@@ -1,8 +1,8 @@
 require('dotenv').config();
 
 // -----------sync to table -----------------
-// const { sequelize } = require('./src/models');
-// sequelize.sync({ force: true });
+// const { sequelize } = require('../src/models');
+// sequelize.sync({ alter: true });
 // -----------End sync to table -------------
 
 const express = require('express');

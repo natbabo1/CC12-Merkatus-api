@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       productDetail: DataTypes.STRING,
-      unitPrice: DataTypes.INTEGER.UNSIGNED,
+      unitPrice: DataTypes.FLOAT.UNSIGNED,
       image: DataTypes.STRING,
       stock: DataTypes.INTEGER.UNSIGNED,
     },
@@ -24,7 +24,17 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: 'RESTRICT',
     });
 
-    Product.hasMany(db.Order, {
+    Product.belongsTo(db.User, {
+      as: 'Seller',
+      foreignKey: {
+        name: 'sellerId',
+        allowNull: false,
+      },
+      onDelete: 'RESTRICT',
+      onUpdate: 'RESTRICT',
+    });
+
+    Product.hasMany(db.Orderitem, {
       foreignKey: {
         name: 'productId',
         allowNull: false,
@@ -33,10 +43,18 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: 'RESTRICT',
     });
 
-    Product.belongsTo(db.User, {
-      as: 'Seller',
+    Product.hasMany(db.Mycart, {
       foreignKey: {
-        name: 'sellerId',
+        name: 'productId',
+        allowNull: false,
+      },
+      onDelete: 'RESTRICT',
+      onUpdate: 'RESTRICT',
+    });
+
+    Product.hasMany(db.Extraimage, {
+      foreignKey: {
+        name: 'productId',
         allowNull: false,
       },
       onDelete: 'RESTRICT',
