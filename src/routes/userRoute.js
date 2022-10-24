@@ -5,7 +5,7 @@ const upload = require("../middlewares/upload");
 
 router.post(
   "/product",
-  upload.single("image"),
+  upload.array("image", 4),
   productController.createProducts
 );
 module.exports = router;
