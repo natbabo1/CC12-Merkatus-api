@@ -29,9 +29,9 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/auth", authRoute);
 app.use("/category", categoryRoute);
-// app.use('/users', authenticate, userRoute);
-app.use("/seller", sellerRoute);
 app.use("/product", productRoute);
+app.use("/seller", sellerRoute);
+app.use("/users", authenticate, userRoute);
 app.use(notFound);
 app.use(error);
 
