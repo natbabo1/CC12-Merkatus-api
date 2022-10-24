@@ -14,6 +14,7 @@ const authenticate = require("./middlewares/authenticate");
 const authRoute = require("./routes/authRoute");
 const categoryRoute = require("./routes/categoryRoute");
 const userRoute = require("./routes/userRoute");
+const sellerRoute = require("./routes/sellerRoute");
 const productRoute = require("./routes/productRoute");
 
 const app = express();
@@ -29,6 +30,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/auth", authRoute);
 app.use("/category", categoryRoute);
 // app.use('/users', authenticate, userRoute);
+app.use("/seller", sellerRoute);
 app.use("/product", productRoute);
 app.use(notFound);
 app.use(error);
