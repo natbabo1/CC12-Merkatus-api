@@ -1,111 +1,110 @@
-const { USER, ADMIN } = require('../config/constants');
+const { USER, ADMIN } = require("../config/constants");
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
-    'User',
+    "User",
     {
       firstName: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notEmpty: true,
-        },
+          notEmpty: true
+        }
       },
       lastName: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notEmpty: true,
-        },
+          notEmpty: true
+        }
       },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
         validate: {
-          isEmail: true,
-        },
+          isEmail: true
+        }
       },
       phoneNumber: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
+        unique: true
       },
       address: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        type: DataTypes.STRING
       },
       password: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
       },
       role: {
         type: DataTypes.ENUM(USER, ADMIN),
         allowNull: false,
-        defaultValue: USER,
+        defaultValue: USER
       },
       wallet: {
-        type: DataTypes.INTEGER.UNSIGNED,
+        type: DataTypes.INTEGER.UNSIGNED
       },
       profileImage: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING
       },
       coverImage: {
-        type: DataTypes.STRING,
-      },
+        type: DataTypes.STRING
+      }
     },
     { underscored: true }
   );
 
   User.associate = (db) => {
     User.hasMany(db.Order, {
-      as: 'Buyer',
+      as: "Buyer",
       foreignKey: {
-        name: 'buyerId',
-        allowNull: false,
+        name: "buyerId",
+        allowNull: false
       },
-      onDelete: 'RESTRICT',
-      onUpdate: 'RESTRICT',
+      onDelete: "RESTRICT",
+      onUpdate: "RESTRICT"
     });
 
     User.hasMany(db.Product, {
-      as: 'Seller',
+      as: "Seller",
       foreignKey: {
-        name: 'sellerId',
-        allowNull: false,
+        name: "sellerId",
+        allowNull: false
       },
-      onDelete: 'RESTRICT',
-      onUpdate: 'RESTRICT',
+      onDelete: "RESTRICT",
+      onUpdate: "RESTRICT"
     });
 
     User.hasMany(db.Transaction, {
-      as: 'Sender',
+      as: "Sender",
       foreignKey: {
-        name: 'senderId',
-        allowNull: false,
+        name: "senderId",
+        allowNull: false
       },
-      onDelete: 'RESTRICT',
-      onUpdate: 'RESTRICT',
+      onDelete: "RESTRICT",
+      onUpdate: "RESTRICT"
     });
 
     User.hasMany(db.Transaction, {
-      as: 'Receiver',
+      as: "Receiver",
       foreignKey: {
-        name: 'receiverId',
-        allowNull: false,
+        name: "receiverId",
+        allowNull: false
       },
-      onDelete: 'RESTRICT',
-      onUpdate: 'RESTRICT',
+      onDelete: "RESTRICT",
+      onUpdate: "RESTRICT"
     });
 
     User.hasMany(db.Mycart, {
-      as: 'Buyercart',
+      as: "Buyercart",
       foreignKey: {
-        name: 'buyercartId',
-        allowNull: false,
+        name: "buyercartId",
+        allowNull: false
       },
-      onDelete: 'RESTRICT',
-      onUpdate: 'RESTRICT',
+      onDelete: "RESTRICT",
+      onUpdate: "RESTRICT"
     });
   };
 
