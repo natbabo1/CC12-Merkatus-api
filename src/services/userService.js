@@ -1,4 +1,4 @@
-const { User, Product } = require("../models");
+const { User, Category, Product } = require("../models");
 const { USER } = require("../config/constants");
 
 exports.getUserById = async (id) => {
@@ -12,7 +12,7 @@ exports.getSellerById = async (id) => {
   return User.findOne({
     attributes: { exclude: ["password"] },
     where: { id, role: USER },
-    include: { model: Product, as: "Seller" }
+    include: { model: Product, as: "Seller", include: Category }
   });
 };
 
