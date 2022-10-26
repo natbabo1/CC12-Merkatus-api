@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { Category, Product } = require("../models");
+const { Category, Product, User, Extraimage } = require("../models");
 
 exports.getProducts = async ({
   categoryId,
@@ -11,7 +11,7 @@ exports.getProducts = async ({
   maxPrice,
   emptyStock,
   orderBy,
-  order
+  order,
 }) => {
   const where = {};
 
@@ -48,7 +48,17 @@ exports.getProducts = async ({
     order: [
       orderBy
         ? [orderBy, order?.toLowerCase() === "asc" ? "ASC" : "DESC"]
-        : ["updatedAt", order ?? "DESC"]
-    ]
+        : ["updatedAt", order ?? "DESC"],
+    ],
+  });
+};
+
+exports.getProductById = async (id) => {
+  return Product.findOne({
+    where: { id },
+    include: [
+      { model: User, as: "Seller", attributes: { exclude: "password" } },
+      { model: Extraimage },
+    ],
   });
 };
