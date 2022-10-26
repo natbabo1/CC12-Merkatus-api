@@ -29,9 +29,9 @@ exports.createProducts = async (req, res, next) => {
     const { productName, productDetail, unitPrice, stock, categoryId } =
       req.body;
 
-    console.log(req.files);
+    console.log(req.files.image[0].path);
     if (req.files) {
-      mainImage = await cloudinary.upload(req.files[0].path);
+      mainImage = await cloudinary.upload(req.files.image[0].path);
     }
 
     const createProducts = await Product.create({
@@ -44,7 +44,7 @@ exports.createProducts = async (req, res, next) => {
       sellerId: req.user.id,
     });
 
-    for (const file of req.files.slice(1)) {
+    for (const file of req.files.image.slice(1)) {
       imageUp = await cloudinary.upload(file.path);
       await Extraimage.create({
         image: imageUp,
@@ -56,8 +56,8 @@ exports.createProducts = async (req, res, next) => {
   } catch (err) {
     next(err);
   } finally {
-    req.files.forEach((element) => {
-      fs.unlinkSync(element.path);
-    });
+    for (const file of req.files.image) {
+      fs.unlinkSync(file.path);
+    }
   }
 };
