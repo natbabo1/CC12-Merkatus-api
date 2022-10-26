@@ -12,11 +12,24 @@ exports.getProducts = async (req, res, next) => {
   }
 };
 
+exports.getProductById = async (req, res, next) => {
+  try {
+    const { productId } = req.params;
+
+    const product = await productService.getProductById(productId);
+
+    res.status(200).json({ product });
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.createProducts = async (req, res, next) => {
   try {
     const { productName, productDetail, unitPrice, stock, categoryId } =
       req.body;
 
+    console.log(req.files);
     if (req.files) {
       mainImage = await cloudinary.upload(req.files[0].path);
     }
