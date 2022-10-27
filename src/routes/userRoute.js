@@ -10,6 +10,17 @@ router.post(
   productController.createProducts
 );
 
+router.patch(
+  "/product/:id",
+  upload.fields([
+    { name: "image", maxCount: 1 },
+    { name: "extraImage1", maxCount: 1 },
+    { name: "extraImage2", maxCount: 1 },
+    { name: "extraImage3", maxCount: 1 },
+  ]),
+  productController.updateProducts
+);
+
 router
   .route("/cart")
   .post(cartController.createCartItem)

@@ -62,3 +62,9 @@ exports.getProductById = async (id) => {
     ],
   });
 };
+
+exports.getExtraImage = async (id) => {
+  return Extraimage.findAll({
+    where: { productId: id },
+  });
+};
