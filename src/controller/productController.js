@@ -1,8 +1,9 @@
 const fs = require("fs");
 const productService = require("../services/productService");
-const { Product, Extraimage } = require("../models");
+const { Product, Extraimage, sequelize } = require("../models");
 const cloudinary = require("../utils/cloudinary");
-const { image } = require("../config/cloudinary");
+const AppError = require("../utils/appError");
+// const { image } = require("../config/cloudinary");
 
 exports.getProducts = async (req, res, next) => {
   try {
@@ -160,5 +161,30 @@ exports.updateProducts = async (req, res, next) => {
     });
   } catch (err) {
     next(err);
+  }
+};
+
+exports.deleteProducts = async (req, res, next) => {
+  let t;
+  try {
+    t = await sequelize.transaction();
+    const product = await Product.findOne({ where: { id: req.params.id } });
+    if (!product) {
+      throw new AppError("product was not found", 400);
+    }
+    if (req.user.id !== product.sellerId) {
+      throw new AppError("no permission to delete", 403);
+    }
+
+    await Extraimage.destroy({
+      where: { productId: product.id },
+      transaction: t,
+    });
+    await product.destroy({ transaction: t });
+    await t.commit();
+    res.status(200).json({ message: "success delete" });
+  } catch (err) {
+    await t.rollback();
+    console.log(err);
   }
 };

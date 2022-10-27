@@ -21,6 +21,8 @@ router.patch(
   productController.updateProducts
 );
 
+router.delete("/product/:id", productController.deleteProducts);
+
 router
   .route("/cart")
   .post(cartController.createCartItem)
