@@ -52,3 +52,10 @@ exports.getProducts = async ({
     ]
   });
 };
+
+exports.getSellerProducts = async (sellerId) => {
+  return Product.findAll({
+    where: { sellerId },
+    order: [["id", "DESC"]]
+  });
+};

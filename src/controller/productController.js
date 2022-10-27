@@ -12,6 +12,16 @@ exports.getProducts = async (req, res, next) => {
   }
 };
 
+exports.getProductBySeller = async (req, res, next) => {
+  try {
+    const { id } = req.user;
+    const products = await productService.getSellerProducts(id);
+    res.status(200).json({ products });
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.createProducts = async (req, res, next) => {
   try {
     const { productName, productDetail, unitPrice, stock, categoryId } =
@@ -28,14 +38,14 @@ exports.createProducts = async (req, res, next) => {
       image: mainImage,
       stock,
       categoryId,
-      sellerId: req.user.id,
+      sellerId: req.user.id
     });
 
     for (const file of req.files.slice(1)) {
       imageUp = await cloudinary.upload(file.path);
       await Extraimage.create({
         image: imageUp,
-        productId: createProducts.id,
+        productId: createProducts.id
       });
     }
 
