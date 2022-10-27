@@ -14,6 +14,16 @@ exports.getProducts = async (req, res, next) => {
   }
 };
 
+exports.getProductBySeller = async (req, res, next) => {
+  try {
+    const { id } = req.user;
+    const products = await productService.getSellerProducts(id);
+    res.status(200).json({ products });
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.getProductById = async (req, res, next) => {
   try {
     const { productId } = req.params;
@@ -43,14 +53,14 @@ exports.createProducts = async (req, res, next) => {
       image: mainImage,
       stock,
       categoryId,
-      sellerId: req.user.id,
+      sellerId: req.user.id
     });
 
     for (const file of req.files.image.slice(1)) {
       imageUp = await cloudinary.upload(file.path);
       await Extraimage.create({
         image: imageUp,
-        productId: createProducts.id,
+        productId: createProducts.id
       });
     }
 
@@ -72,7 +82,7 @@ exports.updateProducts = async (req, res, next) => {
       productDetail,
       unitPrice,
       stock,
-      categoryId,
+      categoryId
       // id: extraImageId,
     } = req.body;
     const extraImage1 = await productService.getExtraImage(id);
@@ -126,28 +136,28 @@ exports.updateProducts = async (req, res, next) => {
         unitPrice,
         image: mainImage,
         stock,
-        categoryId,
+        categoryId
       },
       { where: { id: id, sellerId: req.user.id } }
     );
 
     const updateextra = await Extraimage.update(
       {
-        image: imageUp1,
+        image: imageUp1
       },
       { where: { id: extraImage1[0].dataValues.id, productId: id } }
     );
 
     const updateextra2 = await Extraimage.update(
       {
-        image: imageUp2,
+        image: imageUp2
       },
       { where: { id: extraImage1[1].dataValues.id, productId: id } }
     );
 
     const updateextra3 = await Extraimage.update(
       {
-        image: imageUp3,
+        image: imageUp3
       },
       { where: { id: extraImage1[2].dataValues.id, productId: id } }
     );
@@ -157,7 +167,7 @@ exports.updateProducts = async (req, res, next) => {
       updatePropro,
       updateextra,
       updateextra2,
-      updateextra3,
+      updateextra3
     });
   } catch (err) {
     next(err);
@@ -178,7 +188,7 @@ exports.deleteProducts = async (req, res, next) => {
 
     await Extraimage.destroy({
       where: { productId: product.id },
-      transaction: t,
+      transaction: t
     });
     await product.destroy({ transaction: t });
     await t.commit();

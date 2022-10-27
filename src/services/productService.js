@@ -68,3 +68,10 @@ exports.getExtraImage = async (id) => {
     where: { productId: id },
   });
 };
+
+exports.getSellerProducts = async (sellerId) => {
+  return Product.findAll({
+    where: { sellerId },
+    order: [["id", "DESC"]]
+  });
+};

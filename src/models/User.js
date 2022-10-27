@@ -98,9 +98,9 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     User.hasMany(db.Mycart, {
-      as: "Buyercart",
+      as: "MyCart",
       foreignKey: {
-        name: "buyercartId",
+        name: "buyerId",
         allowNull: false
       },
       onDelete: "RESTRICT",
