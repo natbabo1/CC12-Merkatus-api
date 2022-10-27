@@ -13,7 +13,7 @@ module.exports = {
           "$2a$12$dPl5fxT2QFUO56NFDBQ0me7kujw5iWcmrS8.9CiNmWUVryhnXFCT.",
         role: "ADMIN",
         created_at: new Date(),
-        updated_at: new Date()
+        updated_at: new Date(),
       },
       {
         first_name: "Poom",
@@ -29,7 +29,7 @@ module.exports = {
           "$2a$12$dPl5fxT2QFUO56NFDBQ0me7kujw5iWcmrS8.9CiNmWUVryhnXFCT.",
         role: "USER",
         created_at: new Date(),
-        updated_at: new Date()
+        updated_at: new Date(),
       },
       {
         first_name: "Bolly",
@@ -45,7 +45,7 @@ module.exports = {
           "$2a$12$dPl5fxT2QFUO56NFDBQ0me7kujw5iWcmrS8.9CiNmWUVryhnXFCT.",
         role: "USER",
         created_at: new Date(),
-        updated_at: new Date()
+        updated_at: new Date(),
       },
       {
         first_name: "Taakky",
@@ -61,12 +61,12 @@ module.exports = {
           "$2a$12$dPl5fxT2QFUO56NFDBQ0me7kujw5iWcmrS8.9CiNmWUVryhnXFCT.",
         role: "USER",
         created_at: new Date(),
-        updated_at: new Date()
-      }
+        updated_at: new Date(),
+      },
     ]);
   },
 
   async down(queryInterface, Sequelize) {
     return queryInterface.bulkDelete("users", null, {});
-  }
+  },
 };
