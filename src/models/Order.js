@@ -14,7 +14,8 @@ module.exports = (sequelize, DataTypes) => {
       date: DataTypes.STRING,
       amount: DataTypes.INTEGER.UNSIGNED,
       totalPrice: DataTypes.FLOAT.UNSIGNED,
-      rating: DataTypes.INTEGER
+      rating: DataTypes.INTEGER,
+      trackingNo: DataTypes.STRING
     },
     { underscored: true }
   );

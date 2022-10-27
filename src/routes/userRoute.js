@@ -16,6 +16,7 @@ router.route("/buying").get(orderController.getOrdersByBuyerId);
 router.route("/buying/:orderId").patch(orderController.confirmOrder);
 
 router.route("/selling").get(orderController.getOrdersBySellerId);
+router.route("/selling/:orderId").patch(orderController.addTrackingNo);
 router.route("/selling/products").get(productController.getProductBySeller);
 
 router.patch(
