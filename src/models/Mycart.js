@@ -9,9 +9,9 @@ module.exports = (sequelize, DataTypes) => {
 
   Mycart.associate = (db) => {
     Mycart.belongsTo(db.User, {
-      as: "MyCart",
+      as: "Buyercart",
       foreignKey: {
-        name: "buyerId",
+        name: "buyercartId",
         allowNull: false
       },
       onDelete: "RESTRICT",

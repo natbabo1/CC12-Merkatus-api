@@ -1,10 +1,10 @@
-const { Mycart } = require("../models");
+const { Mycart, Product, User } = require("../models");
 
 exports.createCartItem = async (req, res, next) => {
   try {
     const { id } = req.user;
-    const { productId, count } = req.body;
-    const newCart = await Mycart.create({ count, buyercartId: id, productId });
+    const { productId } = req.body;
+    const newCart = await Mycart.create({ buyercartId: id, productId });
     res.status(200).json({ cart: newCart });
   } catch (err) {
     next(err);
@@ -14,7 +14,17 @@ exports.createCartItem = async (req, res, next) => {
 exports.getMyCart = async (req, res, next) => {
   try {
     const { id } = req.user;
-    const myCart = await Mycart.findAll({ where: { buyercartId: id } });
+    const myCart = await Mycart.findAll({
+      where: { buyercartId: id },
+      include: [
+        {
+          model: Product,
+          include: [
+            { model: User, as: "Seller", attributes: { exclude: "password" } },
+          ],
+        },
+      ],
+    });
     res.status(200).json({ carts: myCart });
   } catch (err) {
     next(err);
@@ -38,10 +48,12 @@ exports.putMyCart = async (req, res, next) => {
 exports.deleteCartItem = async (req, res, next) => {
   try {
     const { id } = req.user;
-    const { cartItem, cartId } = req.body;
+    const { cartId } = req.body;
+    console.log(req.body);
     const deleteCartItem = await Mycart.destroy({
       where: { id: cartId, buyercartId: id },
     });
+    res.status(200).json({ message: "delete success" });
   } catch (err) {
     next(err);
   }
