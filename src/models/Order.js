@@ -1,42 +1,62 @@
-const { PAID, TRANSFER, RECEIVED } = require('../config/constants');
+const {
+  PAID,
+  TRANSFER,
+  RECEIVED,
+  ARRIVED,
+  RATED
+} = require("../config/constants");
 
 module.exports = (sequelize, DataTypes) => {
   const Order = sequelize.define(
-    'Order',
+    "Order",
     {
-      status: DataTypes.ENUM(PAID, TRANSFER, RECEIVED),
+      status: DataTypes.ENUM(PAID, TRANSFER, ARRIVED, RECEIVED, RATED),
       date: DataTypes.STRING,
+      amount: DataTypes.INTEGER.UNSIGNED,
+      totalPrice: DataTypes.FLOAT.UNSIGNED,
+      rating: DataTypes.INTEGER,
+      trackingNo: DataTypes.STRING
     },
     { underscored: true }
   );
 
   Order.associate = (db) => {
     Order.belongsTo(db.User, {
-      as: 'Buyer',
+      as: "Buyer",
       foreignKey: {
-        name: 'buyerId',
-        allowNull: false,
+        name: "buyerId",
+        allowNull: false
       },
-      onDelete: 'RESTRICT',
-      onUpdate: 'RESTRICT',
+      onDelete: "RESTRICT",
+      onUpdate: "RESTRICT"
     });
 
-    Order.hasMany(db.Orderitem, {
+    Order.belongsTo(db.Product, {
       foreignKey: {
-        name: 'orderId',
-        allowNull: false,
+        name: "productId",
+        allowNull: false
       },
-      onDelete: 'RESTRICT',
-      onUpdate: 'RESTRICT',
+      onDelete: "RESTRICT",
+      onUpdate: "RESTRICT"
     });
 
-    Order.hasOne(db.Transaction, {
+    Order.belongsTo(db.Transaction, {
+      as: "PayIn",
       foreignKey: {
-        name: 'orderId',
-        allowNull: false,
+        name: "payInId",
+        allowNull: false
       },
-      onDelete: 'RESTRICT',
-      onUpdate: 'RESTRICT',
+      onDelete: "RESTRICT",
+      onUpdate: "RESTRICT"
+    });
+
+    Order.belongsTo(db.Transaction, {
+      as: "PayOff",
+      foreignKey: {
+        name: "payOffId"
+      },
+      onDelete: "RESTRICT",
+      onUpdate: "RESTRICT"
     });
   };
 

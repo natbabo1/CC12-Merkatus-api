@@ -33,6 +33,7 @@ app.use("/category", categoryRoute);
 app.use("/product", productRoute);
 app.use("/seller", sellerRoute);
 app.use("/users", authenticate, userRoute);
+
 app.use(notFound);
 app.use(error);
 

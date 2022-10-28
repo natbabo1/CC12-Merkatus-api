@@ -4,7 +4,7 @@ const { USER } = require("../config/constants");
 exports.getUserById = async (id) => {
   return User.findOne({
     attributes: { exclude: ["password"] },
-    where: { id }
+    where: { id },
   });
 };
 
@@ -12,7 +12,7 @@ exports.getSellerById = async (id) => {
   return User.findOne({
     attributes: { exclude: ["password"] },
     where: { id, role: USER },
-    include: { model: Product, as: "Seller", include: Category }
+    include: { model: Product, as: "Seller", include: Category },
   });
 };
 

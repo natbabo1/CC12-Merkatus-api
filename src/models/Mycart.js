@@ -2,7 +2,7 @@ module.exports = (sequelize, DataTypes) => {
   const Mycart = sequelize.define(
     "Mycart",
     {
-      count: { type: DataTypes.INTEGER, defaultValue: 1 },
+      count: { type: DataTypes.INTEGER, defaultValue: 1 }
     },
     { underscored: true }
   );
@@ -12,19 +12,19 @@ module.exports = (sequelize, DataTypes) => {
       as: "Buyercart",
       foreignKey: {
         name: "buyercartId",
-        allowNull: false,
+        allowNull: false
       },
       onDelete: "RESTRICT",
-      onUpdate: "RESTRICT",
+      onUpdate: "RESTRICT"
     });
 
     Mycart.belongsTo(db.Product, {
       foreignKey: {
         name: "productId",
-        allowNull: false,
+        allowNull: false
       },
       onDelete: "RESTRICT",
-      onUpdate: "RESTRICT",
+      onUpdate: "RESTRICT"
     });
   };
 
