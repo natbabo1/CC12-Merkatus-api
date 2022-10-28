@@ -1,11 +1,13 @@
 const { Mycart, Product, User } = require("../models");
+const cartService = require("../services/cartService");
 
 exports.createCartItem = async (req, res, next) => {
   try {
     const { id } = req.user;
     const { productId } = req.body;
     const newCart = await Mycart.create({ buyercartId: id, productId });
-    res.status(200).json({ cart: newCart });
+    const cart = await cartService.getCartById(newCart.id);
+    res.status(200).json({ cart });
   } catch (err) {
     next(err);
   }
@@ -20,10 +22,10 @@ exports.getMyCart = async (req, res, next) => {
         {
           model: Product,
           include: [
-            { model: User, as: "Seller", attributes: { exclude: "password" } },
-          ],
-        },
-      ],
+            { model: User, as: "Seller", attributes: { exclude: "password" } }
+          ]
+        }
+      ]
     });
     res.status(200).json({ carts: myCart });
   } catch (err) {
@@ -51,7 +53,7 @@ exports.deleteCartItem = async (req, res, next) => {
     const { cartId } = req.body;
     console.log(req.body);
     const deleteCartItem = await Mycart.destroy({
-      where: { id: cartId, buyercartId: id },
+      where: { id: cartId, buyercartId: id }
     });
     res.status(200).json({ message: "delete success" });
   } catch (err) {
