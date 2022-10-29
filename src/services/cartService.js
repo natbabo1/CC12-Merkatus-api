@@ -29,7 +29,6 @@ exports.calTotalAmountFromCartItems = async (cartIds, buyercartId) => {
     include: Product
   });
 
-  console.log(cartItems[0].Product);
   return {
     verifiedCheckoutItems: cartItems,
     totalFromCheckout: cartItems.reduce(
@@ -37,4 +36,15 @@ exports.calTotalAmountFromCartItems = async (cartIds, buyercartId) => {
       0
     )
   };
+};
+
+exports.deleteCartAfterCheckout = async (id, transaction) => {
+  await Mycart.destroy(
+    {
+      where: {
+        id
+      }
+    },
+    { transaction }
+  );
 };

@@ -1,6 +1,7 @@
 const { TRANSFER, PAID } = require("../config/constants");
 const { Order, Product, User, sequelize } = require("../models");
 const productService = require("../services/productService");
+const cartService = require("../services/cartService");
 const AppError = require("../utils/appError");
 
 exports.getOrdersByBuyer = async (buyerId) => {
@@ -55,6 +56,7 @@ exports.addTrackingNo = async (sellerId, orderId, status, trackingNo) => {
 
 exports.createOrders = async (checkouts, buyerId, payInId, next) => {
   const transaction = await sequelize.transaction();
+
   try {
     const orders = [];
 
@@ -65,13 +67,14 @@ exports.createOrders = async (checkouts, buyerId, payInId, next) => {
           status: PAID,
           date: new Date(),
           amount: item.count,
-          totalPrice: item.count * item.Product.unitPrice,
+          totalPrice: item.count * product.unitPrice,
           buyerId,
-          productId: item.Product.id,
+          productId: product.id,
           payInId
         },
         { transaction }
       );
+      await cartService.deleteCartAfterCheckout(item.id, transaction);
       orders.push(order);
     }
     await transaction.commit();

@@ -10,12 +10,12 @@ exports.createPayInTransaction = async (amount, buyerId) => {
   });
 };
 
-exports.payInTransaction = async (transactionId, amount, buyerId) => {
-  return Transaction.create({
-    status: COMPLETED,
-    amount,
-    transactionId,
-    senderId: buyerId,
-    receiverId: 1
-  });
+exports.completePayInTransaction = async (payInId, transactionId) => {
+  return Transaction.update(
+    {
+      status: COMPLETED,
+      transactionId
+    },
+    { where: { id: payInId } }
+  );
 };

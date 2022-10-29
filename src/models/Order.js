@@ -11,7 +11,6 @@ module.exports = (sequelize, DataTypes) => {
     "Order",
     {
       status: DataTypes.ENUM(PAID, TRANSFER, ARRIVED, RECEIVED, RATED),
-      date: DataTypes.STRING,
       amount: DataTypes.INTEGER.UNSIGNED,
       totalPrice: DataTypes.FLOAT.UNSIGNED,
       rating: DataTypes.INTEGER,
