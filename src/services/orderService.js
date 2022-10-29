@@ -1,5 +1,7 @@
 const { TRANSFER, PAID } = require("../config/constants");
-const { Order, Product, User } = require("../models");
+const { Order, Product, User, sequelize } = require("../models");
+const productService = require("../services/productService");
+const cartService = require("../services/cartService");
 const AppError = require("../utils/appError");
 
 exports.getOrdersByBuyer = async (buyerId) => {
@@ -50,4 +52,35 @@ exports.addTrackingNo = async (sellerId, orderId, status, trackingNo) => {
   await order.update({ status: TRANSFER, trackingNo: trackingNo });
 
   return order;
+};
+
+exports.createOrders = async (checkouts, buyerId, payInId, next) => {
+  const transaction = await sequelize.transaction();
+
+  try {
+    const orders = [];
+
+    for await (const item of checkouts) {
+      const product = await productService.getProductById(item.productId);
+      const order = await Order.create(
+        {
+          status: PAID,
+          date: new Date(),
+          amount: item.count,
+          totalPrice: item.count * product.unitPrice,
+          buyerId,
+          productId: product.id,
+          payInId
+        },
+        { transaction }
+      );
+      await cartService.deleteCartAfterCheckout(item.id, transaction);
+      orders.push(order);
+    }
+    await transaction.commit();
+    return orders;
+  } catch (err) {
+    await transaction.rollback();
+    next(err);
+  }
 };

@@ -5,7 +5,6 @@ const omise = require("omise")({
 
 exports.paymentWithCreditCard = async (req, res, next) => {
   const { email, name, amount, token } = req.body;
-  console.log(req.body);
   try {
     const customer = await omise.customers.create({
       email,
@@ -19,13 +18,10 @@ exports.paymentWithCreditCard = async (req, res, next) => {
       customer: customer.id
     });
 
-    return res.send({
-      amount: charge.amount,
-      status: charge.status,
-      token: charge.transaction
-    });
-  } catch (error) {
-    console.log(error);
+    req.body.transactionId = charge.transaction;
+
+    next();
+  } catch (err) {
+    next(err);
   }
-  next();
 };

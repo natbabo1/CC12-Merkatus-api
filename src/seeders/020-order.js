@@ -7,7 +7,6 @@ module.exports = {
     return queryInterface.bulkInsert("orders", [
       {
         status: PAID,
-        date: new Date(),
         amount: 3,
         total_price: 2997,
         buyer_id: 3,
@@ -18,7 +17,6 @@ module.exports = {
       },
       {
         status: TRANSFER,
-        date: new Date(),
         amount: 1,
         total_price: 7999,
         buyer_id: 3,
@@ -29,7 +27,6 @@ module.exports = {
       },
       {
         status: ARRIVED,
-        date: new Date(),
         amount: 1,
         total_price: 7999,
         buyer_id: 4,
@@ -40,7 +37,6 @@ module.exports = {
       },
       {
         status: RECEIVED,
-        date: new Date(),
         amount: 1,
         total_price: 999,
         buyer_id: 4,
@@ -51,7 +47,6 @@ module.exports = {
       },
       {
         status: PAID,
-        date: new Date(),
         amount: 2,
         total_price: 39_998,
         buyer_id: 2,
@@ -62,7 +57,6 @@ module.exports = {
       },
       {
         status: TRANSFER,
-        date: new Date(),
         amount: 1,
         total_price: 9999,
         buyer_id: 2,
