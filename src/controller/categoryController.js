@@ -1,5 +1,5 @@
-const { Category } = require('../models');
-const AppError = require('../utils/appError');
+const { Category } = require("../models");
+const AppError = require("../utils/appError");
 
 exports.getAllcategory = async (req, res, next) => {
   try {
