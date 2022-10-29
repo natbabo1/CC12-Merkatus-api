@@ -17,6 +17,7 @@ const categoryRoute = require("./routes/categoryRoute");
 const userRoute = require("./routes/userRoute");
 const sellerRoute = require("./routes/sellerRoute");
 const productRoute = require("./routes/productRoute");
+const paymentRoute = require("./routes/paymentRoute");
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use("/auth", authRoute);
 app.use("/category", categoryRoute);
 app.use("/product", productRoute);
 app.use("/seller", sellerRoute);
+app.use("/payment", paymentRoute);
 app.use("/users", authenticate, userRoute);
 
 app.use(notFound);
