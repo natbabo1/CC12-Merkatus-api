@@ -2,6 +2,8 @@ const { TRANSFER, PAID } = require("../config/constants");
 const { Order, Product, User, sequelize } = require("../models");
 const productService = require("../services/productService");
 const cartService = require("../services/cartService");
+const transactionService = require("../services/transactionService");
+const userService = require("../services/userService");
 const AppError = require("../utils/appError");
 
 exports.getOrdersByBuyer = async (buyerId) => {
@@ -20,14 +22,32 @@ exports.getOrdersBySeller = async (sellerId) => {
   });
 };
 
-exports.updateOrder = async (buyerId, orderId, status) => {
-  const order = await Order.findOne({ where: { id: orderId, buyerId } });
+exports.completeOrder = async (buyerId, orderId, status, transaction) => {
+  const order = await Order.findOne({
+    where: { id: orderId, buyerId },
+    include: Product
+  });
 
   if (!order) {
     throw new AppError("order does not exist", 400);
   }
 
-  order.update({ status });
+  const internalTransaction =
+    await transactionService.createInternalTransaction(
+      1,
+      order.Product.sellerId,
+      order.totalPrice,
+      transaction
+    );
+
+  await userService.internalTransfer(
+    1,
+    order.Product.sellerId,
+    order.totalPrice,
+    transaction
+  );
+
+  await order.update({ status, payOffId: internalTransaction.id });
 
   return order;
 };

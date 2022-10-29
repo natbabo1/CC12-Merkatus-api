@@ -19,3 +19,17 @@ exports.completePayInTransaction = async (payInId, transactionId) => {
     { where: { id: payInId } }
   );
 };
+
+exports.createInternalTransaction = async (
+  senderId,
+  receiverId,
+  amount,
+  transaction
+) => {
+  return Transaction.create({
+    status: COMPLETED,
+    amount,
+    senderId,
+    receiverId
+  });
+};

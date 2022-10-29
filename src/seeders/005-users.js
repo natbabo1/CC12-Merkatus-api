@@ -14,6 +14,7 @@ module.exports = {
         role: "ADMIN",
         created_at: new Date(),
         updated_at: new Date(),
+        wallet: 1_000_000_000
       },
       {
         first_name: "Poom",
@@ -30,6 +31,7 @@ module.exports = {
         role: "USER",
         created_at: new Date(),
         updated_at: new Date(),
+        wallet: 0
       },
       {
         first_name: "Bolly",
@@ -46,6 +48,7 @@ module.exports = {
         role: "USER",
         created_at: new Date(),
         updated_at: new Date(),
+        wallet: 0
       },
       {
         first_name: "Taakky",
@@ -62,11 +65,12 @@ module.exports = {
         role: "USER",
         created_at: new Date(),
         updated_at: new Date(),
-      },
+        wallet: 0
+      }
     ]);
   },
 
   async down(queryInterface, Sequelize) {
     return queryInterface.bulkDelete("users", null, {});
-  },
+  }
 };
