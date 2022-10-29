@@ -1,12 +1,13 @@
 const { User, Category, Product } = require("../models");
 const { USER } = require("../config/constants");
 
-exports.getUserById = async (id) => {
+const getUserById = async (id) => {
   return User.findOne({
     attributes: { exclude: ["password"] },
     where: { id }
   });
 };
+exports.getUserById = getUserById;
 
 exports.getSellerById = async (id) => {
   return User.findOne({
@@ -17,6 +18,18 @@ exports.getSellerById = async (id) => {
 };
 
 exports.incomeExternalTransfer = async (id, amount) => {
-  const user = await User.findOne({ where: { id } });
+  const user = await getUserById(id);
   await user.update({ wallet: user.wallet + amount });
+};
+
+exports.internalTransfer = async (
+  senderId,
+  receiverId,
+  amount,
+  transaction
+) => {
+  const sender = await getUserById(senderId);
+  const receiver = await getUserById(receiverId);
+  await sender.update({ wallet: sender.wallet - amount });
+  await receiver.update({ wallet: receiver.wallet + amount });
 };

@@ -1,3 +1,4 @@
+const { sequelize } = require("../models");
 const orderService = require("../services/orderService");
 const transactionService = require("../services/transactionService");
 const cartService = require("../services/cartService");
@@ -27,6 +28,7 @@ exports.getOrdersBySellerId = async (req, res, next) => {
 };
 
 exports.confirmOrder = async (req, res, next) => {
+  // const transaction = sequelize.transaction();
   try {
     const { id } = req.user;
     const { orderId } = req.params;
@@ -36,10 +38,13 @@ exports.confirmOrder = async (req, res, next) => {
       throw new AppError("Invalid status", 400);
     }
 
-    const order = await orderService.updateOrder(id, orderId, status);
+    await orderService.completeOrder(id, orderId, status);
 
-    res.status(200).json({ order });
+    // await transaction.commit();
+    res.status(200).json({ message: "success" });
   } catch (err) {
+    console.log(err);
+    // await transaction.rollback();
     next(err);
   }
 };
