@@ -8,4 +8,6 @@ exports.RECEIVED = "RECEIVED";
 exports.RATED = "RATED";
 
 exports.PENDING = "PENDING";
+exports.ACCEPTED = "ACCEPTED";
+exports.REJECTED = "REJECTED";
 exports.COMPLETED = "COMPLETED";

@@ -1,11 +1,17 @@
-const { PENDING, COMPLETED } = require("../config/constants");
+const {
+  PENDING,
+  COMPLETED,
+  ACCEPTED,
+  REJECTED
+} = require("../config/constants");
 
 module.exports = (sequelize, DataTypes) => {
   const Transaction = sequelize.define(
     "Transaction",
     {
-      status: DataTypes.ENUM(PENDING, COMPLETED),
-      amount: DataTypes.DOUBLE.UNSIGNED
+      status: DataTypes.ENUM(PENDING, ACCEPTED, REJECTED, COMPLETED),
+      amount: DataTypes.DOUBLE.UNSIGNED,
+      transactionId: DataTypes.STRING
     },
     { underscored: true }
   );
