@@ -149,7 +149,7 @@ module.exports = {
         stock: 1,
         created_at: new Date(),
         updated_at: new Date(),
-        category_id: 2,
+        category_id: 12,
         seller_id: 4
       },
       {
@@ -240,14 +240,14 @@ module.exports = {
         stock: 3,
         created_at: new Date(),
         updated_at: new Date(),
-        category_id: 16,
+        category_id: 15,
         seller_id: 3
       },
       {
         product_name: "กีตาร์โปร่ง",
         product_detail:
           "ขนาด 41 นิ้ว, 20 เฟร็ต, ทรง Dreadnought คอเว้า นวัตกรรมเทคโนโลยี Transaoustic Guitar",
-        unit_price: 3333,
+        unit_price: 3129,
         image:
           "https://res.cloudinary.com/dkcoxqdbo/image/upload/v1667209604/Merkatus/gui1_rqokmd.jpg",
         stock: 3,
