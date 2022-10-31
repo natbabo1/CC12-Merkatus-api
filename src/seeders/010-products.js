@@ -91,7 +91,7 @@ module.exports = {
         seller_id: 3
       },
       {
-        product_name: "ตุ๊กตาหญิงหมี",
+        product_name: "ตุ๊กตาหมี",
         product_detail:
           "ตุ๊กตาหมีน่ารักๆ ตุ๊กตาหมีชุดเครื่องแบบ ตุ๊กตาหมีตกแต่งห้อง",
         unit_price: 389,
