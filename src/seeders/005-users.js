@@ -57,7 +57,7 @@ module.exports = {
         phone_number: "0812345681",
         address: "the Address",
         profile_image:
-          "https://res.cloudinary.com/ddumeol1b/image/upload/v1663915397/1663915385441968653744.jpg",
+          "https://res.cloudinary.com/dkbiwdyij/image/upload/v1665943585/Merkatus_njoknv.png",
         cover_image:
           "https://res.cloudinary.com/ddumeol1b/image/upload/v1663820813/cld-sample-2.jpg",
         password:
