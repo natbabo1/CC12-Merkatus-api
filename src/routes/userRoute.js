@@ -3,6 +3,7 @@ const upload = require("../middlewares/upload");
 const productController = require("../controller/productController");
 const orderController = require("../controller/orderController");
 const cartController = require("../controller/cartController");
+const authController = require("../controller/authController");
 const router = express.Router();
 
 router.post(
@@ -10,6 +11,8 @@ router.post(
   upload.fields([{ name: "image", maxCount: 4 }]),
   productController.createProducts
 );
+
+router.patch("/address", authController.updateAddress);
 
 router.route("/buying").get(orderController.getOrdersByBuyerId);
 
