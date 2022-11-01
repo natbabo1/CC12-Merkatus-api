@@ -5,4 +5,6 @@ const router = express.Router();
 
 router.route("/:sellerId").get(sellerController.getSellerById);
 
+router.get("/:sellerId/rating", sellerController.getSellerRating);
+
 module.exports = router;

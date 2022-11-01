@@ -1,10 +1,11 @@
-const { TRANSFER, PAID } = require("../config/constants");
-const { Order, Product, User, sequelize } = require("../models");
+const { TRANSFER, PAID, RATED } = require("../config/constants");
+const { Order, Product, User, sequelize, Sequelize } = require("../models");
 const productService = require("../services/productService");
 const cartService = require("../services/cartService");
 const transactionService = require("../services/transactionService");
 const userService = require("../services/userService");
 const AppError = require("../utils/appError");
+const { or } = require("sequelize");
 
 exports.getOrdersByBuyer = async (buyerId) => {
   return Order.findAll({
@@ -103,4 +104,34 @@ exports.createOrders = async (checkouts, buyerId, payInId, next) => {
     await transaction.rollback();
     next(err);
   }
+};
+
+exports.getSellerRating = async (sellerId) => {
+  const rating = await Order.findOne({
+    where: { "$Product.seller_id$": sellerId },
+    include: { model: Product, attributes: [] },
+    attributes: [[Sequelize.fn("AVG", Sequelize.col("rating")), "avgRating"]]
+  });
+
+  return rating.dataValues.avgRating;
+};
+
+exports.rateOrder = async (buyerId, orderId, status, score) => {
+  if (status !== RATED) {
+    throw new AppError("order status is invalid", 400);
+  }
+  if (+score < 0 || +score > 5) {
+    throw new AppError("score is out of valid range", 400);
+  }
+  const order = await Order.findOne({
+    where: { buyerId, id: orderId }
+  });
+
+  if (!order) {
+    throw new AppError("order does not exist", 400);
+  }
+
+  await order.update({ status, rating: +score });
+
+  return order;
 };
