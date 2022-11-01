@@ -41,7 +41,6 @@ exports.createProducts = async (req, res, next) => {
     const { productName, productDetail, unitPrice, stock, categoryId } =
       req.body;
 
-    console.log(req.files.image[0].path);
     if (req.files) {
       mainImage = await cloudinary.upload(req.files.image[0].path);
     }

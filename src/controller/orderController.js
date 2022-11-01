@@ -38,10 +38,10 @@ exports.confirmOrder = async (req, res, next) => {
       throw new AppError("Invalid status", 400);
     }
 
-    await orderService.completeOrder(id, orderId, status);
+    const order = await orderService.completeOrder(id, orderId, status);
 
     // await transaction.commit();
-    res.status(200).json({ message: "success" });
+    res.status(200).json({ order });
   } catch (err) {
     console.log(err);
     // await transaction.rollback();
@@ -129,6 +129,20 @@ exports.completePurchase = async (req, res, next) => {
       next
     );
     res.status(200).json({ orders });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.rateOrder = async (req, res, next) => {
+  try {
+    const { id } = req.user;
+    const { orderId } = req.params;
+    const { status, score } = req.body;
+
+    const order = await orderService.rateOrder(id, orderId, status, score);
+
+    res.status(200).json({ order });
   } catch (err) {
     next(err);
   }
