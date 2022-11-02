@@ -4,6 +4,7 @@ const productController = require("../controller/productController");
 const orderController = require("../controller/orderController");
 const cartController = require("../controller/cartController");
 const authController = require("../controller/authController");
+const withdrawController = require("../controller/withdrawController");
 const router = express.Router();
 
 router.post(
@@ -24,6 +25,10 @@ router.route("/buying/:orderId/rating").patch(orderController.rateOrder);
 router.route("/selling").get(orderController.getOrdersBySellerId);
 router.route("/selling/:orderId").patch(orderController.addTrackingNo);
 router.route("/selling/products").get(productController.getProductBySeller);
+router
+  .route("/selling/withdraw")
+  .get(withdrawController.getRequests)
+  .post(withdrawController.createWithdrawalRequest);
 
 router.patch(
   "/product/:id",

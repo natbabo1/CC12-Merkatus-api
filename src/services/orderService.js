@@ -109,11 +109,12 @@ exports.createOrders = async (checkouts, buyerId, payInId, next) => {
 exports.getSellerRating = async (sellerId) => {
   const rating = await Order.findOne({
     where: { "$Product.seller_id$": sellerId },
-    include: { model: Product, attributes: [] },
-    attributes: [[Sequelize.fn("AVG", Sequelize.col("rating")), "avgRating"]]
+    include: { model: Product, attributes: ["sellerId"] },
+    attributes: [[Sequelize.fn("AVG", Sequelize.col("rating")), "avgRating"]],
+    group: "Product.seller_id"
   });
 
-  return rating.dataValues.avgRating;
+  return rating?.dataValues?.avgRating ?? 0;
 };
 
 exports.rateOrder = async (buyerId, orderId, status, score) => {
