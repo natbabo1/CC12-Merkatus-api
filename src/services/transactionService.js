@@ -33,3 +33,11 @@ exports.createInternalTransaction = async (
     receiverId
   });
 };
+
+exports.createWithdrawTransaction = async (amount, requesterId) =>
+  Transaction.create({
+    status: PENDING,
+    amount,
+    senderId: 1,
+    receiverId: requesterId
+  });
