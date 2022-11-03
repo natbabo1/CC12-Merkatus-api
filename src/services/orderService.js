@@ -118,7 +118,7 @@ exports.getSellerRating = async (sellerId) => {
     group: "Product.seller_id"
   });
 
-  return rating?.dataValues?.avgRating ?? 0;
+  return rating?.avgRating ?? 0;
 };
 
 exports.rateOrder = async (buyerId, orderId, status, score) => {
