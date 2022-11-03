@@ -22,12 +22,12 @@ exports.incomeExternalTransfer = async (id, amount) => {
   await user.update({ wallet: user.wallet + amount });
 };
 
-exports.internalTransfer = async (
-  senderId,
-  receiverId,
-  amount,
-  transaction
-) => {
+exports.expenseExternalTransfer = async (id, amount) => {
+  const user = await getUserById(id);
+  await user.update({ wallet: user.wallet - amount });
+};
+
+exports.internalTransfer = async (senderId, receiverId, amount) => {
   const sender = await getUserById(senderId);
   const receiver = await getUserById(receiverId);
   await sender.update({ wallet: sender.wallet - amount });
