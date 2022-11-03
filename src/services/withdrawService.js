@@ -1,5 +1,6 @@
 const { Op } = require("sequelize");
 const { WithdrawalRequest, User } = require("../models");
+const userService = require("../services/userService");
 const cloudinary = require("../utils/cloudinary");
 const {
   PENDING,
@@ -89,6 +90,11 @@ exports.completeRequest = async (requestId, file) => {
   }
 
   await request.update({ status: COMPLETED, proofImage });
+
+  await userService.expenseExternalTransfer(
+    request.requester.id,
+    request.amount
+  );
 
   return request;
 };

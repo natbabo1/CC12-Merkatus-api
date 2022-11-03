@@ -110,7 +110,6 @@ exports.rejectRequest = async (req, res, next) => {
     const { requestId } = req.params;
     const { status, detail } = req.body;
 
-    console.log(status + "=============================" + detail);
     if (status !== REJECTED) {
       throw new AppError("status is invalid", 400);
     }
