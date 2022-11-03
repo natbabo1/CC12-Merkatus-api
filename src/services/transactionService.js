@@ -1,4 +1,4 @@
-const { COMPLETED, PENDING } = require("../config/constants");
+const { COMPLETED, PENDING, REJECTED } = require("../config/constants");
 const { Transaction } = require("../models");
 
 exports.createPayInTransaction = async (amount, buyerId) => {
@@ -41,3 +41,15 @@ exports.createWithdrawTransaction = async (amount, requesterId) =>
     senderId: 1,
     receiverId: requesterId
   });
+
+exports.completeWithdrawTransaction = async (transactionId) =>
+  await Transaction.update(
+    { status: COMPLETED },
+    { where: { id: transactionId } }
+  );
+
+exports.rejectWithdrawTransaction = async (transactionId) =>
+  await Transaction.update(
+    { status: REJECTED },
+    { where: { id: transactionId } }
+  );
