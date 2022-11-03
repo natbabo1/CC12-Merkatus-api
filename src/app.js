@@ -12,12 +12,14 @@ const morgan = require("morgan");
 const notFound = require("./middlewares/notFound");
 const error = require("./middlewares/error");
 const authenticate = require("./middlewares/authenticate");
+const adminAuthenticate = require("./middlewares/adminAuthenticate");
 const authRoute = require("./routes/authRoute");
 const categoryRoute = require("./routes/categoryRoute");
 const userRoute = require("./routes/userRoute");
 const sellerRoute = require("./routes/sellerRoute");
 const productRoute = require("./routes/productRoute");
 const paymentRoute = require("./routes/paymentRoute");
+const adminRoute = require("./routes/adminRoute");
 
 const app = express();
 
@@ -35,6 +37,7 @@ app.use("/product", productRoute);
 app.use("/seller", sellerRoute);
 app.use("/payment", authenticate, paymentRoute);
 app.use("/users", authenticate, userRoute);
+app.use("/admin", adminAuthenticate, adminRoute);
 
 app.use(notFound);
 app.use(error);
